@@ -5,7 +5,7 @@ LIMIT = 50
 URL = f"https://kr.indeed.com/jobs?q=python&l=%EC%84%9C%EC%9A%B8&limit={LIMIT}"
 
 
-def extract_indeed_pages():
+def get_last_page():
     result = requests.get(URL)
     # 해당 사이트의 html을 가져옴. 데이터를 탐색하고 추출하기 위해.
     soup = BeautifulSoup(result.text, "html.parser")
@@ -41,7 +41,7 @@ def extract_job(html):
     return {"title": title, 'company': company, 'location': location, "link": f"https://kr.indeed.com/viewjob?jk={job_id}"}
 
 
-def extract_indeed_jobs(last_page):
+def extract_jobs(last_page):
     jobs = []
     for page in range(last_page):  # range는 0부터 해당 숫자까지
         print(f"Scrapping page {page}")
@@ -53,4 +53,10 @@ def extract_indeed_jobs(last_page):
         for result in results:
             job = extract_job(result)
             jobs.append(job)
+    return jobs
+
+
+def get_jobs():
+    last_page = get_last_page()  # 마지막페이지 가져오고
+    jobs = extract_jobs(last_page)  # 마지막페이지 받아서 실행
     return jobs
