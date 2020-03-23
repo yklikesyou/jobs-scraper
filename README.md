@@ -1,2 +1,2 @@
-# indeed_jobs_scrapper
+# jobs scrapper
  
